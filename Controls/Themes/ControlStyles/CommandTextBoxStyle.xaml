@@ -1,0 +1,72 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Controls="clr-namespace:Buschmann.Windows.Controls"
+                    xmlns:Converters="clr-namespace:Buschmann.Windows.Controls.Converters">
+    
+    <Converters:FalseToHiddenConverter x:Key="falseToHiddenConverter" />
+    <Converters:TrueToHiddenConverter x:Key="trueToHiddenConverter" />
+    <Converters:CommandStringDisplayConverter x:Key="commandStringDisplayConverter" />
+    
+    <Style x:Key="PopupElementMargin" TargetType="FrameworkElement">
+        <Setter Property="Margin" Value="5,2,5,2" />
+    </Style>
+
+    <Style x:Key="PopupElementCommandString" TargetType="TextBlock" BasedOn="{StaticResource PopupElementMargin}">
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style x:Key="PopupElementDescription" TargetType="TextBlock" BasedOn="{StaticResource PopupElementMargin}">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Margin" Value="5,2,5,10" />
+    </Style>
+    
+    <Style TargetType="{x:Type Controls:CommandTextBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls:CommandTextBox}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <TextBox x:Name="inputTextBox" HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+
+                            <Image x:Name="commandListHideButton" Stretch="None" Source="/Buschmann.Windows.Controls;component/Images/arrow_left.png"
+                                   VerticalAlignment="Top" HorizontalAlignment="Right"
+                                   Visibility="{TemplateBinding CommandListPopupIsVisible, Converter={StaticResource falseToHiddenConverter}}" />
+                            
+                            <Image x:Name="commandListShowButton" Stretch="None" Source="/Buschmann.Windows.Controls;component/Images/arrow_right.png"
+                                   VerticalAlignment="Top" HorizontalAlignment="Right"
+                                   Visibility="{TemplateBinding CommandListPopupIsVisible, Converter={StaticResource trueToHiddenConverter}}" />
+
+                            <Popup x:Name="commandListPopup" PlacementTarget="{Binding ElementName=commandListHideButton}" AllowsTransparency="True"
+                                   Placement="Right" StaysOpen="False" IsOpen="{TemplateBinding CommandListPopupIsVisible}">
+                                <Popup.Child>
+                                    <Border BorderThickness="1" BorderBrush="Blue" Background="White">
+                                        <DockPanel>
+                                            <StackPanel DockPanel.Dock="Top" Background="LightBlue">
+                                                <TextBlock Text="Available Commands" FontWeight="Bold" Style="{StaticResource PopupElementMargin}" />
+                                                <Border BorderThickness="1" BorderBrush="Blue" Height="1" />
+                                            </StackPanel>
+
+                                            <ItemsControl ItemsSource="{TemplateBinding Commands}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <DockPanel>
+                                                            <TextBlock DockPanel.Dock="Top" Text="{Binding CommandString, Converter={StaticResource commandStringDisplayConverter}}" Style="{StaticResource PopupElementCommandString}" />
+                                                            <TextBlock Text="{Binding Description}" Style="{StaticResource PopupElementDescription}" />
+                                                        </DockPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </DockPanel>
+                                    </Border>
+                                </Popup.Child>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

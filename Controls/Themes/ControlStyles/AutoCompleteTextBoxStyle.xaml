@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Controls="clr-namespace:Buschmann.Windows.Controls">
+
+    <Style TargetType="{x:Type Controls:AutoCompleteTextBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Controls:AutoCompleteTextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Visibility="{TemplateBinding Visibility}">
+                        <Grid>
+                            <TextBox x:Name="inputTextBox" HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+
+                            <Popup x:Name="itemsPopup"
+                                   PlacementTarget="{Binding ElementName=searchTextbox}"
+                                   Placement="Bottom"
+                                   AllowsTransparency="True"
+                                   StaysOpen="False"
+                                   MinWidth="{Binding ActualWidth, ElementName=searchTextbox}">
+                                <Popup.Child>
+                                    <Border BorderThickness="1" BorderBrush="Blue">
+                                        <ListBox x:Name="itemsList"
+                                                 ItemsSource="{TemplateBinding FilteredItems}"
+                                                 HorizontalAlignment="Stretch">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" />
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Border>
+                                </Popup.Child>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Buschmann.Windows.TestApp.Controls.CrawlListTester"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Controls="clr-namespace:Buschmann.Windows.Controls;assembly=Buschmann.Windows.Controls"
+             xmlns:ControlConverters="clr-namespace:Buschmann.Windows.Controls.Converters;assembly=Buschmann.Windows.Controls"
+             xmlns:Converters="clr-namespace:Buschmann.Windows.TestApp.Converters"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Converters:NotBoolConverter x:Key="NotBoolConverter" />
+        <ControlConverters:FalseToHiddenConverter x:Key="falseToHiddenConverter" />
+    </UserControl.Resources>
+    
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Content="Begin Crawl" Command="{Binding StartCrawlCommand, Mode=OneTime}"
+                    IsEnabled="{Binding IsCrawling, Converter={StaticResource NotBoolConverter}}" />
+            <Button Content="End Crawl" Command="{Binding EndCrawlCommand, Mode=OneTime}"
+                    IsEnabled="{Binding IsCrawling}" />
+            <TextBlock Text="Speed (Device Independent Units/Second)" Padding="15,0,5,0" VerticalAlignment="Bottom" />
+            <TextBox Height="23" VerticalAlignment="Bottom"
+                     Text="{Binding CrawlSpeed, ElementName=crawlList, Mode=TwoWay}"
+                     IsEnabled="{Binding IsCrawling, Converter={StaticResource NotBoolConverter}}" />
+        </StackPanel>
+
+        <Controls:CrawlList x:Name="crawlList" DockPanel.Dock="Bottom" Height="25"
+                            ItemsSource="{Binding TypeList}"
+                            IsCrawling="{Binding IsCrawling, Mode=TwoWay}"
+                            Visibility="{Binding IsCrawling, Converter={StaticResource falseToHiddenConverter}}">
+            <Controls:CrawlList.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Buschmann.Windows.TestApp;component/Images/class.png" Margin="5, 5, 0, 5" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Name}" Padding="3, 0, 10, 0" Foreground="Blue" TextAlignment="Center" VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </Controls:CrawlList.ItemTemplate>
+        </Controls:CrawlList>
+        
+        <TextBlock Text="Placeholder for content above the crawl." HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </DockPanel>
+</UserControl>

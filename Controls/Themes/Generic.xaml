@@ -1,0 +1,11 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Buschmann.Windows.Controls;component/Themes/ControlStyles/AutoCompleteTextBoxStyle.xaml" />
+        <ResourceDictionary Source="/Buschmann.Windows.Controls;component/Themes/ControlStyles/CommandTextBoxStyle.xaml" />
+        <ResourceDictionary Source="/Buschmann.Windows.Controls;component/Themes/ControlStyles/CrawlListStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+</ResourceDictionary>

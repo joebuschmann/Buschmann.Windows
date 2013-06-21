@@ -1,0 +1,50 @@
+﻿<Window x:Class="Buschmann.Windows.TestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Buschmann.Windows.TestApp.Controls"
+        xmlns:Converters="clr-namespace:Buschmann.Windows.TestApp.Converters"
+        Title="MainWindow" Height="350" Width="525">
+
+    <Window.Resources>
+        <Converters:StringMatchToVisibilityConverter x:Key="stringMatchConverter" />
+
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="30" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Margin" Value="5, 0, 0, 0" />
+        </Style>
+        
+        <Style x:Key="controlHost" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="Padding" Value="5,0,5,5" />
+            <Setter Property="Margin" Value="2,0,2,2" />
+        </Style>
+    </Window.Resources>
+
+    <Grid>        
+        <DockPanel>        
+            <StackPanel Orientation="Horizontal" Margin="5, 10, 5, 10" DockPanel.Dock="Top">
+                <Button Content="Auto Complete Textbox" Command="{Binding ControlButtonClickedCommand}" CommandParameter="AutoCompleteTextBoxTester" />
+                <Button Content="Command Textbox" Command="{Binding ControlButtonClickedCommand}" CommandParameter="CommandTextBoxTester" />
+                <Button Content="Crawl List" Command="{Binding ControlButtonClickedCommand}" CommandParameter="CrawlListTester" />
+            </StackPanel>
+            
+            <Border Style="{StaticResource controlHost}">
+                <Grid>
+                    <Grid Visibility="{Binding VisibleControl, Converter={StaticResource stringMatchConverter}, ConverterParameter='AutoCompleteTextBoxTester'}">
+                        <controls:AutoCompleteTextBoxTester />
+                    </Grid>
+
+                    <Grid Visibility="{Binding VisibleControl, Converter={StaticResource stringMatchConverter}, ConverterParameter='CommandTextBoxTester'}">
+                        <controls:CommandTextBoxTester />
+                    </Grid>
+
+                    <Grid Visibility="{Binding VisibleControl, Converter={StaticResource stringMatchConverter}, ConverterParameter='CrawlListTester'}">
+                        <controls:CrawlListTester />
+                    </Grid>
+                </Grid>
+            </Border>
+        </DockPanel>
+    </Grid>
+</Window>
